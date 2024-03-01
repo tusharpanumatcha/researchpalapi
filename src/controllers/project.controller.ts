@@ -79,15 +79,17 @@ export class ProjectController {
   ) {
     try {
       const newProject: Project = await this.projectService.createProject(createProjectDto);
-      return response.status(HttpStatus.CREATED).json({
-        message: 'Project created successfully',
-        data: newProject,
-      });
+      return Api.ok(response, newProject);
+      // return response.status(HttpStatus.CREATED).json({
+      //   message: 'Project created successfully',
+      //   data: newProject,
+      // });
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error creating project',
-        error: error.message,
-      });
+      return Api.badRequest(response, error);
+      // return response.status(HttpStatus.BAD_REQUEST).json({
+      //   message: 'Error creating project',
+      //   error: error.message,
+      // });
     }
   }
 }
