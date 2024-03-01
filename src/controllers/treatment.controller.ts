@@ -40,10 +40,11 @@ export class TreatmentController {
       }
       return Api.ok(response, treatment);
     } catch (error) {
-      return response.status(HttpStatus.NOT_FOUND).json({
-        message: 'Error retrieving treatment by id',
-        error: error.message,
-      });
+      return Api.notFound(error);
+      // return response.status(HttpStatus.NOT_FOUND).json({
+      //   message: 'Error retrieving treatment by id',
+      //   error: error.message,
+      // });
     }
   }
 
@@ -54,16 +55,18 @@ export class TreatmentController {
   ) {
     try {
       const newTreatment: Treatment =
-        await this.treatmentService.createTreatment(createTreatmentDto);
-      return response.status(HttpStatus.CREATED).json({
-        message: 'Treatment created successfully',
-        data: newTreatment,
-      });
+      await this.treatmentService.createTreatment(createTreatmentDto);
+      return Api.ok(response, newTreatment);
+      // return response.status(HttpStatus.CREATED).json({
+      //   message: 'Treatment created successfully',
+      //   data: newTreatment,
+      // });
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error creating treatment',
-        error: error.message,
-      });
+      return Api.badGateway(error);
+      // return response.status(HttpStatus.BAD_REQUEST).json({
+      //   message: 'Error creating treatment',
+      //   error: error.message,
+      // });
     }
   }
 
@@ -79,15 +82,17 @@ export class TreatmentController {
       if (!updatedTreatment) {
         throw new NotFoundException(`Treatment with id ${id} not found`);
       }
-      return response.status(HttpStatus.OK).json({
-        message: 'Treatment updated successfully',
-        data: updatedTreatment,
-      });
+      return Api.ok(response, updateTreatmentDto);
+      // return response.status(HttpStatus.OK).json({
+      //   message: 'Treatment updated successfully',
+      //   data: updatedTreatment,
+      // });
     } catch (error) {
-      return response.status(HttpStatus.BAD_REQUEST).json({
-        message: 'Error updating treatment',
-        error: error.message,
-      });
+      return Api.badRequest(response, error);
+      // return response.status(HttpStatus.BAD_REQUEST).json({
+      //   message: 'Error updating treatment',
+      //   error: error.message,
+      // });
     }
   }
 }
