@@ -9,8 +9,10 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { ProjectService } from '../services/project.service'; // Import your ProjectService
-import { Project } from '../schema/project.schema'; // Import your Project schema/entity
+import { ProjectService } from '../services/project.service';
+import { Project } from '../schema/project.schema'; 
+
+import { Api } from '../util/api';
 
 @Controller('api/project') // Adjust the route as needed
 export class ProjectController {
@@ -21,15 +23,13 @@ export class ProjectController {
   async getAllProjects(@Res() response: Response) {
     try {
       const projects: Project[] = await this.projectService.getAllProjects();
-      return response.status(HttpStatus.OK).json({
-        message: 'All projects retrieved successfully',
-        data: projects,
-      });
+      return Api.ok(response, projects);
     } catch (error) {
-      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
-        message: 'Error retrieving projects',
-        error: error.message,
-      });
+      return Api.serverError(response, error);
+      // return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
+      //   message: 'Error retrieving projects',
+      //   error: error.message,
+      // });
     }
   }
 
@@ -40,17 +40,18 @@ export class ProjectController {
   ) {
     try {
       const project: Project | null =
-        await this.projectService.findProjectByProjectId(projectId);
-
-      return response.status(HttpStatus.OK).json({
-        message: 'Project retrieved successfully',
-        data: project,
-      });
+      await this.projectService.findProjectByProjectId(projectId);
+      return Api.ok(response, project)
+      // return response.status(HttpStatus.OK).json({
+      //   message: 'Project retrieved successfully',
+      //   data: project,
+      // });
     } catch (error) {
-      return response.status(HttpStatus.NOT_FOUND).json({
-        message: 'Error retrieving project by projectId',
-        error: error.message,
-      });
+      return Api.notFound(response);
+      // return response.status(HttpStatus.NOT_FOUND).json({
+      //   message: 'Error retrieving project by projectId',
+      //   error: error.message,
+      // });
     }
   }
 

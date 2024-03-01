@@ -13,7 +13,7 @@ import { Response } from 'express';
 import { TreatmentService } from '../services/treatment.service';
 import { Treatment } from '../schema/treatment.schema';
 import { CreateTreatmentDto } from 'src/dto/treatments.dto';
-import { Api } from 'src/helper/api';
+import { Api } from '../util/api';
 
 @Controller('api/treatment') // Adjust the route as needed
 export class TreatmentController {
