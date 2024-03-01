@@ -14,18 +14,23 @@ import { AuthModule } from './modules/auth.module';
 
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './util/guard/auth.guard';
 
 
 @Module({
   imports: [ 
     ConfigModule.forRoot(),
-    JwtModule.register({
-    secret: 'sdasdcsdac', // replace with your actual secret key
-    signOptions: { expiresIn: '1h' },
-  }),
+  //   JwtModule.register({
+  //   secret: 'sdasdcsdac', // replace with your actual secret key
+  //   signOptions: { expiresIn: '1h' },
+  // }),
   DatabaseModule, AuthModule, UserModule, TreatmentModule, NotesModule, ProjectModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+  },],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
