@@ -1,9 +1,11 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
   Param,
+  Post,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -64,6 +66,25 @@ export class ProjectController {
     } catch (error) {
       return response.status(HttpStatus.NOT_FOUND).json({
         message: 'Error deleting project by projectId',
+        error: error.message,
+      });
+    }
+  }
+
+  @Post()
+  async createProject(
+    @Res() response: Response,
+    @Body() createProjectDto: any, // Use your DTO for creating projects
+  ) {
+    try {
+      const newProject: Project = await this.projectService.createProject(createProjectDto);
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Project created successfully',
+        data: newProject,
+      });
+    } catch (error) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Error creating project',
         error: error.message,
       });
     }

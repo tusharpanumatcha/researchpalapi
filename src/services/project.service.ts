@@ -5,6 +5,9 @@ import { Project } from '../schema/project.schema'; // Import your Project schem
 
 @Injectable()
 export class ProjectService {
+  createProject(createProjectDto: any): Project | PromiseLike<Project> {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectModel('Project') private readonly projectModel: Model<Project>,
   ) {}
