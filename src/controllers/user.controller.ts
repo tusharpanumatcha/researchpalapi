@@ -2,6 +2,8 @@
 import { Controller, Post, Body, BadRequestException } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { Public } from 'src/util/guard/public.guard';
+import { Api } from '../util/api';
+import { response } from 'express';
 
 @Controller('api/user')
 export class UserController {
@@ -17,6 +19,7 @@ export class UserController {
     }
 
     const newUser = await this.userService.createUser(username, email, password);
-    return { id: newUser._id, username: newUser.username, email: newUser.email };
+    return Api.ok(response, newUser);
+    // return { id: newUser._id, username: newUser.username, email: newUser.email };
   }
 }
