@@ -11,9 +11,9 @@ import { DatabaseModule } from './modules/database.module';
 import { ApiResponseMiddleware } from './util/apiResponseMiddleware'; // Update the path as needed
 import { UserModule } from './modules/user.module';
 import { AuthModule } from './modules/auth.module';
+import { ActivityModule } from './modules/activity.module';
 
 import { ConfigModule } from '@nestjs/config';
-import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './util/guard/auth.guard';
 
@@ -25,7 +25,7 @@ import { AuthGuard } from './util/guard/auth.guard';
   //   secret: 'sdasdcsdac', // replace with your actual secret key
   //   signOptions: { expiresIn: '1h' },
   // }),
-  DatabaseModule, AuthModule, UserModule, TreatmentModule, NotesModule, ProjectModule],
+  DatabaseModule, AuthModule, UserModule, TreatmentModule, NotesModule, ProjectModule, ActivityModule],
   controllers: [AppController],
   providers: [AppService, {
     provide: APP_GUARD,
